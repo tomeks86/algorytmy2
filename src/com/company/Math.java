@@ -153,6 +153,8 @@ public class Math {
 
         String number = "100101010011111";
 
+        System.out.println(convertTo10(number,2));
+
         //System.out.println(pow(5,2));
         System.out.println(convertTo10(number,2));
         int num = convertTo10(number,2);
@@ -173,5 +175,7 @@ public class Math {
         //System.out.println();
         //presMat2D(BA);
         presMat2D(pow(A,2));
+
+        System.out.println();
     }
 }
