@@ -20,6 +20,62 @@ public class Math {
         return res;
     }
 
+    public static int[][] matMul(int[][] mat1, int[][] mat2) {
+        if (mat1[0].length != mat2.length) {
+            System.out.println("matrices cannot be multiplied!");
+            return null;
+        }
+        int[][] res = new int[mat1.length][mat2[0].length];
+        for (int i = 0; i < mat1.length; i++) {
+            for (int j = 0; j < mat2[0].length; j++) {
+                for (int k = 0; k < mat1[0].length; k++) {
+                    res[i][j] += mat1[i][k] * mat2[k][j];
+                }
+            }
+        }
+        return res;
+    }
+
+    public static void presMat2D(int[][] mat) {
+        if (mat != null) {
+            for (int i = 0; i < mat.length; i++) {
+                for (int j = 0; j < mat[0].length; j++) {
+                    System.out.print(mat[i][j] + " ");
+                }
+                System.out.println();
+            }
+        }
+    }
+
+    public static int[][] idN(int n){
+        int[][] res = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            res[i][i] = 1;
+        }
+        return res;
+    }
+
+    public static int[][] pow(int[][] base, int exp) {
+        if (exp < 0) {
+            return null;
+        }
+        int dim = base.length;
+        if (dim != base[0].length) {
+            return null;
+        }
+        int[][] res = idN(dim);
+        int r;
+        while (exp > 0){
+            r = exp % 2;
+            exp /= 2;
+            if (r > 0) {
+                res = matMul(res,base);
+            }
+            base = matMul(base,base);
+        }
+        return res;
+    }
+
     public static int convertTo10(String number, int base) {
         int res = 0, actBase = 1;
         int[] num = stringToIntTable(number);
@@ -106,6 +162,16 @@ public class Math {
         System.out.println(convert(number,2,16));
 
         System.out.println(pow(2,24));
+        System.out.println();
 
+        int[][] A = {{0,1},{1,2}};
+        //int[][] B = {{0,3},{3,4},{1,2}};
+        //int[][] BA = matMul(B,A);
+        //presMat2D(A);
+        //System.out.println();
+        //presMat2D(B);
+        //System.out.println();
+        //presMat2D(BA);
+        presMat2D(pow(A,2));
     }
 }
