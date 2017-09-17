@@ -21,7 +21,7 @@ public class ArrayStack implements Stack {
     }
 
     @Override
-    public boolean push(int e) throws IllegalStateException {
+    public boolean push(int e) {
         if (top == size) {
             throw new IllegalStateException("Stack full, only pop method can help you...");
         } else {
@@ -32,7 +32,7 @@ public class ArrayStack implements Stack {
     }
 
     @Override
-    public int pop() throws IllegalStateException {
+    public int pop() {
         if (top == 0) {
             throw new IllegalStateException("Stack is empty, cannot pop from stack!");
         }
@@ -43,7 +43,7 @@ public class ArrayStack implements Stack {
     }
 
     @Override
-    public int peek() throws IllegalStateException {
+    public int peek() {
         if (top == 0) {
             throw new IllegalStateException("Stack is empty, cannot do peek");
         }
