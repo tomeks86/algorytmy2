@@ -61,9 +61,9 @@ public class Recurence {
         System.out.println();
         System.out.println(pow(3,4));
 
-        int[] lista = {-5, -3, -2, 0, 3, 5, 7, 8, 10};
+        int[] myList = {-5, -3, -2, 0, 3, 5, 7, 8, 10};
 
-        int x = binarySearch(lista, 0, lista.length - 1, 3);
+        int x = binarySearch(myList, 0, myList.length - 1, 3);
         System.out.println(x);
 
     }
