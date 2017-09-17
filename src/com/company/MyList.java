@@ -52,7 +52,18 @@ public class MyList implements List{
 
     @Override
     public boolean removeElement(int value) {
-        return false;
+        Element element = head;
+        if (element.getValue() == value) {  //element found at head
+            head = element.getNext();
+            return true;
+        }
+        while (element.getNext() != null && element.getNext().getValue() != value) {
+            element = element.getNext();
+        }
+        if (element.getNext() != null && element.getNext().getValue() == value) {
+            element.setNext(element.getNext().getNext());
+            return true;
+        } else throw new IllegalStateException("Value " + value + " not found in the list!");
     }
 
     @Override
@@ -70,17 +81,25 @@ public class MyList implements List{
 
     @Override
     public int first() {
-        return 0;
+        if (head != null) return head.getValue();
+        else return -1;
     }
 
     @Override
     public int last() {
-        return 0;
+        if (head != null) {
+            Element element = head;
+            while (element.getNext() != null) {
+                element = element.getNext();
+            }
+            return element.getValue();
+        } else return -1;
     }
 
     @Override
     public boolean empty() {
-        return false;
+        if (head == null) return true;
+        else return false;
     }
 
     @Override
@@ -107,7 +126,12 @@ public class MyList implements List{
         myList.remove(10);
         myList.print();
         myList.remove(10);
-        myList.add(124,11);
+        myList.add(124,10);
         myList.print();
+        myList.removeElement(8);
+        myList.print();
+        System.out.println("first element is: " + myList.first());
+        System.out.println("last element is: " + myList.last());
+        System.out.println("is myList empty? " + myList.empty());
     }
 }
