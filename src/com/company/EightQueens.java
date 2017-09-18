@@ -1,7 +1,7 @@
 package com.company;
 
 public class EightQueens {
-    static int size = 4;
+    static int size = 8;
     static int[][] board = new int[size][size];
 
     public static boolean backtrack(int n) {
@@ -9,10 +9,23 @@ public class EightQueens {
         for (int i = 0; i < size; i++) {
             if (checkDiag(i,n) && checkAntiDiag(i,n) && checkHorizontal(i,n)) {
                 fill(i,n);
-                if (backtrack(++n)) return true;
+                n++;
+                if (backtrack(n)) return true;
+                else {
+                    //System.out.println();
+                    //print();
+                    n--;
+                    undo(n);
+                }
             }
         }
         return false;
+    }
+
+    public static void undo(int n) {
+        for (int i = 0; i < size; i++) {
+            board[i][n] = 0;
+        }
     }
 
     public static void root(int m) {
@@ -78,19 +91,14 @@ public class EightQueens {
         }
     }
 
-    public static boolean isFilled(int n) {
-        for (int i = 0; i < size; i++) {
-            if (board[i][n] > 0) return true;
-        }
-        return false;
-    }
-
     public static void main(String[] args) {
         int queensAct = size;
 
         for (int j = 0; j < size; j++) {
             root(j);
             if (backtrack(1)) break;
+            print();
+            System.out.println();
             board = new int[size][size];
         }
 
