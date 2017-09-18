@@ -1,57 +1,99 @@
 package com.company;
 
 public class EightQueens {
-    static int size = 8;
+    static int size = 4;
     static int[][] board = new int[size][size];
 
-    public static boolean checkEnd() {
+    public static boolean backtrack(int n) {
+        if (n == size) return true;
         for (int i = 0; i < size; i++) {
-            if (board[i][size-1] > 0) return true;
+            if (checkDiag(i,n) && checkAntiDiag(i,n) && checkHorizontal(i,n)) {
+                fill(i,n);
+                if (backtrack(++n)) return true;
+            }
         }
         return false;
     }
 
-    public static boolean checkDiagA(int n, int m) {
-        n++;
-        m++;
-        while (n > 0 && n < size && m > 0 && m < size) {
-           if (board[m,n] > 0) return false;
-           n++;
-           m++;
-        }
-        return true;
+    public static void root(int m) {
+        board[m][0] = 1;
     }
 
-    public static boolean checkDiagB(int n, int m) {
-        n--;
+    public static boolean checkEnd() {
+        for (int i = 0; i < size; i++) {
+            if (board[i][size] > 0) return true;
+        }
+        return false;
+    }
+
+    public static boolean checkDiag(int m, int n) {
         m--;
-        while (n > 0 && n < size && m > 0 && m < size) {
-            if (board[m,n] > 0) return false;
-            n--;
+        n--;
+        while (m > -1 && n > -1) {
+            if (board[m][n] > 0) return false;
             m--;
+            n--;
         }
         return true;
     }
 
-    public static boolean checkAntiDiagA(int m, int n) {
-        n--;
+    public static boolean checkAntiDiag(int m, int n) {
         m++;
-        while (n > 0 && n < size && m > 0 && m < size) {
-            if (board[m,n] > 0) return false;
-            n--;
+        n--;
+        while (m < size && n > -1) {
+            if (board[m][n] > 0) return false;
             m++;
+            n--;
         }
         return true;
     }
 
-    public static boolean checkAntiDiagB(int m, int n) {
-        n++;
-        m--;
-        while (n > 0 && n < size && m > 0 && m < size) {
-            if (board[m,n] > 0) return false;
-            n++;
-            m--;
+    public static boolean checkHorizontal(int m, int n) {
+        n--;
+        while (n > -1) {
+            if (board[m][n] > 0) return false;
+            n--;
         }
         return true;
+    }
+
+    public static void boardReinit(int k) {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < k; j++) {
+                board[i][j] = 0;
+            }
+        }
+    }
+
+    public static void fill(int m, int n) {
+        board[m][n] = 1;
+    }
+
+    public static void print() {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                System.out.print(board[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static boolean isFilled(int n) {
+        for (int i = 0; i < size; i++) {
+            if (board[i][n] > 0) return true;
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        int queensAct = size;
+
+        for (int j = 0; j < size; j++) {
+            root(j);
+            if (backtrack(1)) break;
+            board = new int[size][size];
+        }
+
+        print();
     }
 }
