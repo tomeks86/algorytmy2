@@ -3,7 +3,7 @@ package com.company;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Stash {
+public class Heap {
 
     public static void addElement(ArrayList<Integer> stash, int value) {
         int son = stash.size();

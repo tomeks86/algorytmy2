@@ -1,6 +1,6 @@
 package com.company;
 
-public class StashLite {
+public class HeapLite {
     static int maxSize = 500;
     static int[] T = new int[maxSize];
     static int actSize = 0;
