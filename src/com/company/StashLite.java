@@ -16,8 +16,7 @@ public class StashLite {
                     T[son] = T[parent];
                     son = parent;
                     parent = (parent - 1) / 2;
-                }
-                else break;
+                } else break;
             }
             T[son] = value;
             return true;
