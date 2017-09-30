@@ -8,8 +8,10 @@ public class FactorialLite {
         if (n < 0) {
             System.out.println("only positive numbers allowed!");
             fact = -1;
+        } else if (n ==1) {
+            fact = 1;
         } else {
-            for (int i = 1; i < n; i++) {
+            for (int i = 1; i < n + 1; i++) {
                 fact = (fact * i) % 100;
             }
         }
@@ -30,18 +32,22 @@ public class FactorialLite {
         if (n < 0) {
             System.out.println("only positive numbers allowed!");
             fact = BigInteger.valueOf(-1);
+        } else if (n == 1) {
+            return fact;
         } else {
-            for (int i = 1; i < n; i++) {
-                I = BigInteger.valueOf(i);
-                fact = fact.multiply(I);
+            {
+                for (int i = 2; i < n + 1; i++) {
+                    I = BigInteger.valueOf(i);
+                    fact = fact.multiply(I);
+                }
             }
         }
         return fact;
     }
 
     public static void main(String[] args) {
-        for (int i = 1; i < 10001; i++) {
-            System.out.println(i + " " + factorialLite(i)); // + " " + factorial(i));
+        for (int i = 1; i < 100; i++) {
+            System.out.println(i + " " + factorialLite(i) + " " + factorial(i));
         }
     }
 }
