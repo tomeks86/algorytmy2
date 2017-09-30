@@ -74,6 +74,15 @@ public class BST {
         }
     }
 
+    public static ArrayList<Integer> inOrderList(Node newRoot, ArrayList<Integer> lista) {
+        if (newRoot != null) {
+            inOrderList(newRoot.getLeft(), lista);
+            lista.add(newRoot.getValue());
+            inOrderList(newRoot.getRight(), lista);
+        }
+        return lista;
+    }
+
     public static int depth(int initDepth, Node node) {
         int dpL = initDepth, dpR = initDepth;
         if (node.getLeft() != null) dpL = depth(++dpL, node.getLeft());
@@ -116,6 +125,7 @@ public class BST {
                 if (prevNode.getLeft() == null) {
                     prevNode.setLeft(root.getLeft());
                     root = prevNode;
+                    return true;
                 }
                 Node nextNode = prevNode.getLeft();
                 while (nextNode.getLeft() != null) {
@@ -128,6 +138,7 @@ public class BST {
                     nextNode.setRight(root.getRight());
                     root = nextNode;
                 } else { // just nextNode -> root
+                    prevNode.setLeft(null);
                     nextNode.setLeft(root.getLeft());
                     nextNode.setRight(root.getRight());
                     root = nextNode;
@@ -155,7 +166,7 @@ public class BST {
             }
         }
         if (nextNode == null) return false;
-        else { // 3-4 possibilities here depending on the nextNode children count
+        else { // 3(4) possibilities here depending on the nextNode children count
             if (nextNode.getLeft() == null && nextNode.getRight() == null) { // delete if no children
                 //nextNode = null;
                 if (value > prevNode.getValue()) prevNode.setRight(null);
@@ -185,31 +196,56 @@ public class BST {
                 }
                 if (nextNode1.getValue() > prevNode.getValue()) {
                     prevNode.setRight(nextNode1);
-                } else prevNode.setLeft(nextNode1);
+                } else {
+                    prevNode.setLeft(nextNode1);
+                }
                 nextNode1.setLeft(nextNode.getLeft());
-                nextNode1.setRight(nextNode.getRight());
+                if (nextNode.getRight() != nextNode1) {
+                    nextNode1.setRight(nextNode.getRight());
+                }
             }
             return true;
         }
     }
 
+    public static boolean isOrdered(ArrayList<Integer> table) {
+        int cur = table.get(0);
+        for (int i = 1; i < table.size(); i++) {
+            if (table.get(i) < cur) return false;
+            else cur = table.get(i);
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         root = new Node(5);
-        int[] nums = {4,3,2,6,3,7,6,-1,4,54,10,55};
+        //int[] nums = {4,3,2,6,3,7,6,-1,4,54,10,55};
+        int[] nums = {32, 4, 65, -32, 5, 3, 6, 3, 2, 8, -1, 3, 4};
         for (int num : nums) {
             addNode(num);
         }
         print();
-
-        //preOrder(root);
+        System.out.println();
         inOrder(root);
         System.out.println();
+        System.out.println();
+
+        //preOrder(root);
 
         //System.out.println(search(54).getValue());
+        System.out.println(remove(3));
+        System.out.println(remove(3));
+        System.out.println(remove(10));
         System.out.println(remove(4));
-        System.out.println(remove(5)); // problem
-        System.out.println(remove(55)); // problem
+        System.out.println(remove(-1));
+        //System.out.println(remove(55)); // problem
+        System.out.println();
         print();
+        System.out.println();
         inOrder(root);
+        System.out.println();
+        ArrayList<Integer> test = new ArrayList<>();
+        System.out.println(inOrderList(root,test).toString());
+        System.out.println(isOrdered(test));
     }
 }
