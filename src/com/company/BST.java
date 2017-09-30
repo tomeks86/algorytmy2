@@ -93,15 +93,16 @@ public class BST {
                     if (nodes.get(j).getLeft() != null) nodes.add(nodes.get(j).getLeft());
                     if (nodes.get(j).getRight() != null) nodes.add(nodes.get(j).getRight());
                     i++;
+                    System.out.print(nodes.get(j).getValue() + " ");
                     //System.out.println(i + " " + j);
                 }
                 ndSize = nodes.size();
-                //System.out.println("tu jestem");
+                System.out.println();
                 //lvl++;
             }
-            for (int j = 0; j < nodes.size(); j++) {
+            /*for (int j = 0; j < nodes.size(); j++) {
                 System.out.print(nodes.get(j).getValue() + " ");
-            }
+            }*/
             //System.out.println();
             //System.out.println("level is: " + lvl);
         }
@@ -167,7 +168,20 @@ public class BST {
                     prevNode.setLeft(nextNode.getRight());
                 }
             } else { // we have two children!
-
+                Node prevNode1 = nextNode;
+                Node nextNode1 = nextNode.getRight();
+                while (nextNode1.getLeft() != null) {
+                    prevNode1 = nextNode1;
+                    nextNode1 = nextNode1.getLeft();
+                }
+                if (nextNode1.getRight() != null) { //node1.right reconnected @ prev1.left
+                    prevNode.setLeft(nextNode1.getRight());
+                }
+                if (nextNode1.getValue() > prevNode.getValue()) {
+                    prevNode.setRight(nextNode1);
+                } else prevNode.setLeft(nextNode1);
+                nextNode1.setLeft(nextNode.getLeft());
+                nextNode1.setRight(nextNode.getRight());
             }
             return true;
         }
@@ -179,12 +193,15 @@ public class BST {
         for (int num : nums) {
             addNode(num);
         }
+        print();
 
         //preOrder(root);
         inOrder(root);
         System.out.println();
-        System.out.println(search(54).getValue());
+
+        //System.out.println(search(54).getValue());
+        System.out.println(remove(4));
+        System.out.println(remove(4)); // problem
         print();
-        System.out.println(depth(0, root));
     }
 }
