@@ -38,6 +38,26 @@ public class BST {
         return node;
     }
 
+    /*private static Node[] search2(int value) {
+        Node node = root;
+        Node[] result = new Node[2];
+        if (node.getValue() == value) {
+            result[0] = null;
+            result[1] = root;
+        } else {
+            while (node != null & node.getValue() != value) {
+                if (node.getLeft().getValue() == value) {
+                    result[0] = node;
+                    result[1] = node.getLeft();
+                } else if (node.getRight().getValue() == value) {
+                    result[0] = node;
+                    result[1] = node.getRight();
+                }
+            }
+        }
+        return result;
+    }*/
+
     public static void preOrder(Node newRoot) {
         if (newRoot != null) {
             System.out.println(newRoot.getValue());
@@ -87,9 +107,71 @@ public class BST {
         }
     }
 
-    /*public static boolean remove(int value) {
+    public static boolean remove(int value) {
+        Node prevNode = root;
+        if (prevNode.getValue() == value) { //start of the root exchange block
+            if (prevNode.getRight() != null) { //search for the leftmost node in the right branch of root
+                prevNode = prevNode.getRight();
+                Node nextNode = prevNode.getLeft();
+                while (nextNode.getLeft() != null) {
+                    prevNode = prevNode.getLeft();
+                    nextNode = nextNode.getLeft();
+                }
+                if (nextNode.getRight() != null) { //relink the nodes: 1) prevNode.setLeft(nextNode.getRight()), 2) nextNode -> root (and links)
+                    prevNode.setLeft(nextNode.getRight());
+                    nextNode.setLeft(root.getLeft());
+                    nextNode.setRight(root.getRight());
+                    root = nextNode;
+                } else { // just nextNode -> rot
+                    nextNode.setLeft(root.getLeft());
+                    nextNode.setRight(root.getRight());
+                    root = nextNode;
+                }
+            } else { //root node has nothing on the RHS
+                root = root.getLeft();
+                return true;
+            }
+        } //end of the root exchange block
+        //if value was not found in the root block...
+        Node nextNode = null;
+        if (value > prevNode.getValue()) { //initialization of the nextNode
+            nextNode = root.getRight();
+        } else {
+            nextNode = root.getLeft();
+        }
+        while (nextNode != null) {
+            if (nextNode.getValue() == value) break;
+            if (value > nextNode.getValue()) {
+                prevNode = nextNode;
+                nextNode = nextNode.getRight();
+            } else {
+                prevNode = nextNode;
+                nextNode = nextNode.getLeft();
+            }
+        }
+        if (nextNode == null) return false;
+        else { // 3-4 possibilities here depending on the nextNode children count
+            if (nextNode.getLeft() == null && nextNode.getRight() == null) { // delete if no children
+                nextNode = null;
+                return true;
+            } else if (nextNode.getLeft() != null && nextNode.getRight() == null) { // no right child
+                if (nextNode.getLeft().getValue() > prevNode.getValue()) {
+                    prevNode.setRight(nextNode.getLeft());
+                } else {
+                    prevNode.setLeft(nextNode.getLeft());
+                }
+            } else if (nextNode.getLeft() == null && nextNode.getRight() != null) { // no left child
+                if (nextNode.getRight().getValue() > prevNode.getValue()) {
+                    prevNode.setRight(nextNode.getRight());
+                } else {
+                    prevNode.setLeft(nextNode.getRight());
+                }
+            } else { // we have two children!
 
-    }*/
+            }
+            return true;
+        }
+    }
 
     public static void main(String[] args) {
         root = new Node(5);
