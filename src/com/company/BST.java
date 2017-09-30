@@ -113,6 +113,10 @@ public class BST {
         if (prevNode.getValue() == value) { //start of the root exchange block
             if (prevNode.getRight() != null) { //search for the leftmost node in the right branch of root
                 prevNode = prevNode.getRight();
+                if (prevNode.getLeft() == null) {
+                    prevNode.setLeft(root.getLeft());
+                    root = prevNode;
+                }
                 Node nextNode = prevNode.getLeft();
                 while (nextNode.getLeft() != null) {
                     prevNode = prevNode.getLeft();
@@ -123,7 +127,7 @@ public class BST {
                     nextNode.setLeft(root.getLeft());
                     nextNode.setRight(root.getRight());
                     root = nextNode;
-                } else { // just nextNode -> rot
+                } else { // just nextNode -> root
                     nextNode.setLeft(root.getLeft());
                     nextNode.setRight(root.getRight());
                     root = nextNode;
@@ -136,9 +140,9 @@ public class BST {
         //if value was not found in the root block...
         Node nextNode = null;
         if (value > prevNode.getValue()) { //initialization of the nextNode
-            nextNode = root.getRight();
+            nextNode = prevNode.getRight();
         } else {
-            nextNode = root.getLeft();
+            nextNode = prevNode.getLeft();
         }
         while (nextNode != null) {
             if (nextNode.getValue() == value) break;
@@ -153,7 +157,9 @@ public class BST {
         if (nextNode == null) return false;
         else { // 3-4 possibilities here depending on the nextNode children count
             if (nextNode.getLeft() == null && nextNode.getRight() == null) { // delete if no children
-                nextNode = null;
+                //nextNode = null;
+                if (value > prevNode.getValue()) prevNode.setRight(null);
+                else prevNode.setLeft(null);
                 return true;
             } else if (nextNode.getLeft() != null && nextNode.getRight() == null) { // no right child
                 if (nextNode.getLeft().getValue() > prevNode.getValue()) {
@@ -175,7 +181,7 @@ public class BST {
                     nextNode1 = nextNode1.getLeft();
                 }
                 if (nextNode1.getRight() != null) { //node1.right reconnected @ prev1.left
-                    prevNode.setLeft(nextNode1.getRight());
+                    prevNode1.setRight(nextNode1.getRight());
                 }
                 if (nextNode1.getValue() > prevNode.getValue()) {
                     prevNode.setRight(nextNode1);
@@ -201,7 +207,9 @@ public class BST {
 
         //System.out.println(search(54).getValue());
         System.out.println(remove(4));
-        System.out.println(remove(4)); // problem
+        System.out.println(remove(5)); // problem
+        System.out.println(remove(55)); // problem
         print();
+        inOrder(root);
     }
 }
